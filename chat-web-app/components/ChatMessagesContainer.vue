@@ -1,8 +1,8 @@
 <template>
-  <div class="">
+  <div class="" ref="chatMessagesContainer">
     <SingleChatMsgCard
       v-for="msg in getChatMessagesArr"
-      :key="msg.id"
+      :key="msg.msg_id"
       :msgPayload="msg"
     />
   </div>
@@ -12,6 +12,12 @@ import { mapGetters, mapActions, mapMutations } from "vuex";
 export default {
   computed: {
     ...mapGetters(["getChatMessagesArr"])
-  }
+  },
+  watch: {
+    getChatMessagesArr() {}
+  },
+  mounted() {}
 };
 </script>
+
+<style scoped></style>

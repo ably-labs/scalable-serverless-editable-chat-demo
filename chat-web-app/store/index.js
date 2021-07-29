@@ -89,7 +89,8 @@ const createStore = () => {
 
         const ablyInstance = new Ably.Realtime({
           key: process.env.ABLY_API_KEY,
-          clientId: this.state.ablyClientId
+          clientId: this.state.ablyClientId,
+          echoMessages: false
         });
         console.log("my client id", this.state.ablyClientId);
         ablyInstance.connection.once("connected", () => {
@@ -119,11 +120,8 @@ const createStore = () => {
       },
 
       subscribeToChannels({ state, dispatch }) {
-        // state.channelInstances.incomingChat.subscribe(msg => {
-        //   state.chatMessagesArr.push(msg.data);
-        // });
-        state.channelInstances.outgoingChat.subscribe(msg => {
-          state.chatMessagesArr.push(msg);
+        state.channelInstances.incomingChat.subscribe(msg => {
+          state.chatMessagesArr.push(JSON.parse(msg.data).row);
         });
       },
       subscribeToAblyPresence(vueContext) {
@@ -143,8 +141,11 @@ const createStore = () => {
         );
         this.state.channelInstances.outgoingChat.presence.get(
           (err, presenceList) => {
-            for (member in presenceList) {
-              vueContext.dispatch("handleNewMemberEntered", member);
+            for (const member in presenceList) {
+              vueContext.dispatch(
+                "handleNewMemberEntered",
+                presenceList[member]
+              );
             }
           }
         );

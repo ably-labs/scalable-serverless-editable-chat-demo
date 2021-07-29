@@ -13,9 +13,7 @@
           'bg-purple-500': isMsgMine
         }"
       >
-        {{ msgPayload.timestamp }}
-        {{ msgPayload.data.content }}
-        {{ msgPayload.id }}
+        {{ msgPayload.msg_data }}
       </div>
     </div>
   </div>
@@ -35,8 +33,8 @@ export default {
     ...mapGetters(["getMyClientId"])
   },
   created() {
-    this.isMsgMine = this.msgPayload.clientId === this.getMyClientId;
-    console.log(this.msgPayload.clientId, this.getMyClientId, this.isMsgMine);
+    this.isMsgMine = this.msgPayload.client_id === this.getMyClientId;
+    console.log(this.msgPayload.client_id, this.getMyClientId, this.isMsgMine);
   }
 };
 </script>
