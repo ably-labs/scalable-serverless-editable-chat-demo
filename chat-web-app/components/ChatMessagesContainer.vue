@@ -1,10 +1,12 @@
 <template>
-  <div class="" ref="chatMessagesContainer">
-    <SingleChatMsgCard
-      v-for="msg in getChatMessagesArr"
-      :key="msg.msg_id"
-      :msgPayload="msg"
-    />
+  <div class="flex flex-col" ref="chatMessagesContainer">
+    <div class="overflow-y-scroll" id="container">
+      <SingleChatMsgCard
+        v-for="msg in getChatMessagesArr"
+        :key="msg.msg_id"
+        :msgPayload="msg"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -14,7 +16,10 @@ export default {
     ...mapGetters(["getChatMessagesArr"])
   },
   watch: {
-    getChatMessagesArr() {}
+    getChatMessagesArr() {
+      const container = this.$el.querySelector("#container");
+      container.scrollTop = container.scrollHeight;
+    }
   },
   mounted() {}
 };

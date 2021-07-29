@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex" v-if="getIsUsernameEntered">
     <input
       type="text"
       class="border border-gray-600 rounded-xl bg-transparent pl-8 p-2 m-3 w-11/12 text-white"
@@ -25,11 +25,16 @@ export default {
       chatMsg: ""
     };
   },
+  computed: {
+    ...mapGetters(["getIsUsernameEntered"])
+  },
   methods: {
     ...mapActions(["publishMyChatMsgToAbly"]),
     publishMyMsg(msg) {
-      this.publishMyChatMsgToAbly(msg);
-      this.chatMsg = "";
+      if (this.chatMsg) {
+        this.publishMyChatMsgToAbly(msg);
+        this.chatMsg = "";
+      }
     }
   }
 };

@@ -34,7 +34,8 @@ const createStore = () => {
       getUsername: state => state.username,
       getMyClientId: state => state.ablyClientId,
       getOnlineMembersArr: state => state.onlineMembersArr,
-      getChatMessagesArr: state => state.chatMessagesArr
+      getChatMessagesArr: state => state.chatMessagesArr,
+      getIsUsernameEntered: state => state.username != null
     },
 
     mutations: {
@@ -78,7 +79,7 @@ const createStore = () => {
 
     actions: {
       //Ably init
-      instantiateAbly(vueContext, { username }) {
+      instantiateAbly(vueContext) {
         vueContext.commit(
           "setAblyClientId",
           "clientId-" +
@@ -96,10 +97,9 @@ const createStore = () => {
         ablyInstance.connection.once("connected", () => {
           vueContext.commit("setAblyConnectionStatus", true);
           vueContext.commit("setAblyRealtimeInstance", ablyInstance);
-          vueContext.commit("setUsername", username);
           vueContext.dispatch("attachToAblyChannels");
           vueContext.dispatch("subscribeToAblyPresence");
-          vueContext.dispatch("enterClientInAblyPresenceSet");
+          // vueContext.dispatch("enterClientInAblyPresenceSet");
         });
       },
       attachToAblyChannels(vueContext) {
@@ -162,7 +162,6 @@ const createStore = () => {
         vueContext.commit("setPresenceDecrement");
       },
       enterClientInAblyPresenceSet(vueContext) {
-        console.log("entering");
         this.state.channelInstances.outgoingChat.presence.enter({
           username: this.state.username
         });

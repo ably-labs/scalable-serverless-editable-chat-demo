@@ -3,12 +3,43 @@
     <LeftNavBar class="left-navbar" />
     <TopBar class="topbar" />
     <ChatDetails class="chat-details" />
-    <ChatHeader class="chat-header" />
-    <ChatMessagesContainer class="chat-messages-container" />
+    <ChatHeader class="chat-header " />
+    <ChatMessagesContainer
+      class="chat-messages-container"
+      v-if="getIsUsernameEntered"
+    />
+    <UsernameInput v-if="!getIsUsernameEntered" />
     <ChatInput class="chat-input" />
     <LiveInfo class="live-info" />
   </div>
 </template>
+
+<script>
+import { mapGetters, mapActions, mapMutations } from "vuex";
+
+export default {
+  methods: {
+    ...mapActions(["instantiateAbly", "enterClientInAblyPresenceSet"])
+  },
+  computed: {
+    ...mapGetters([
+      "getIsUsernameEntered",
+      "getUsername",
+      "getIsAblyConnectedStatus"
+    ])
+  },
+  watch: {
+    getIsUsernameEntered(newStatus, oldStatus) {
+      if (newStatus && this.getIsAblyConnectedStatus) {
+        this.enterClientInAblyPresenceSet();
+      }
+    }
+  },
+  created() {
+    console.log(this.getIsUsernameEntered, this.getUsername);
+  }
+};
+</script>
 
 <style>
 .grid {

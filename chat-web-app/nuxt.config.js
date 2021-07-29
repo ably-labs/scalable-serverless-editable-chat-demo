@@ -54,7 +54,8 @@ export default {
           }
         ]
       }
-    ]
+    ],
+    "vue-github-buttons/nuxt"
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

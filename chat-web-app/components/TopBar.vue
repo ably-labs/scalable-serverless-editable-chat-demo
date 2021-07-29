@@ -1,9 +1,19 @@
 <template>
-  <div class="p-5 flex justify-between border-2 border-gray-800">
-    <div class="font-bold text-2xl">
-      <font-awesome-icon class="text-purple-500" :icon="['fas', 'dice-d6']" />
-      Scalable serverless realtime messaging
+  <div class="p-5 flex justify-between border-2 border-gray-800 items-center">
+    <div class="font-bold text-4xl">
+      Scalable serverless realtime messaging demo
     </div>
-    <div class="">Powered by Ably</div>
+    <div class="">
+      <gh-btns-star
+        slug="ably-labs/jamstack-sync-stream-video"
+        show-count
+        class="gh-btn"
+      ></gh-btns-star>
+      <gh-btns-fork
+        slug="ably-labs/jamstack-sync-stream-video"
+        show-count
+        class="gh-btn"
+      ></gh-btns-fork>
+    </div>
   </div>
 </template>

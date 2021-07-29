@@ -12,7 +12,7 @@ export default {
     ...mapActions(["instantiateAbly"])
   },
   mounted() {
-    this.instantiateAbly({ username: "srush chatty" });
+    this.instantiateAbly();
   }
 };
 </script>
