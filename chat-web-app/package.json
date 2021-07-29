@@ -15,11 +15,14 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/vue-fontawesome": "^2.0.2",
     "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/fontawesome": "^1.1.2",
+    "ably": "^1.2.11",
     "core-js": "^3.15.1",
     "nuxt": "^2.15.7",
     "nuxt-fontawesome": "^0.4.0",
-    "tailwindcss-filters": "^3.0.0"
+    "tailwindcss-filters": "^3.0.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^4.2.1",

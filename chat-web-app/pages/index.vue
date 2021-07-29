@@ -5,7 +5,16 @@
 </template>
 
 <script>
-export default {};
+import { mapGetters, mapActions, mapMutations } from "vuex";
+
+export default {
+  methods: {
+    ...mapActions(["instantiateAbly"])
+  },
+  mounted() {
+    this.instantiateAbly({ username: "srush chatty" });
+  }
+};
 </script>
 
 <style>

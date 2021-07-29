@@ -5,3 +5,6 @@ chat-app/.npmrc
 chat-web-app/.npmrc
 chat-web-app/.editorconfig
 chat-web-app/assets/css/main.css
+*lambda-function*
+*localnpmrc*
+*random*
