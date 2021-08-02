@@ -121,7 +121,17 @@ const createStore = () => {
 
       subscribeToChannels({ state, dispatch }) {
         state.channelInstances.incomingChat.subscribe(msg => {
-          state.chatMessagesArr.push(JSON.parse(msg.data).row);
+          let msgPayload = JSON.parse(msg.data);
+          let operationPerformed = msgPayload.type;
+          if (operationPerformed == "INSERT") {
+            state.chatMessagesArr.push(msgPayload.row);
+          } else if (operationPerformed == "UPDATE") {
+            let msgObjToEdit = state.chatMessagesArr.find(
+              msg => msg.msg_id == msgPayload.row.msg_id
+            );
+            msgObjToEdit.msg_data = msgPayload.row.msg_data;
+            msgObjToEdit.is_edited = msgPayload.row.is_edited;
+          }
         });
       },
       subscribeToAblyPresence(vueContext) {
@@ -170,6 +180,13 @@ const createStore = () => {
         state.channelInstances.outgoingChat.publish("chatMsg", {
           username: state.username,
           content: chatMsg
+        });
+      },
+      publishMyEditedMsgToAbly({ state }, { editedMsg, msgIdToEdit }) {
+        state.channelInstances.outgoingChat.publish("editedMsg", {
+          username: state.username,
+          content: editedMsg,
+          msgIdToEdit: msgIdToEdit
         });
       }
     }
