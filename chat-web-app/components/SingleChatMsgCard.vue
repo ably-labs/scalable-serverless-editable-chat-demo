@@ -36,9 +36,13 @@
             'bg-purple-500': isMsgMine
           }"
         >
-          <p :contenteditable="didClickEdit" ref="editMsgPara">
+          <div
+            :contenteditable="didClickEdit"
+            ref="editMsgPara"
+            @keydown.enter="saveEditedMsg()"
+          >
             {{ messageContents }}
-          </p>
+          </div>
         </div>
         <div
           class="text-xs px-3 py-1 flex items-center"
@@ -53,7 +57,8 @@
           <template v-if="isMsgFromToday">
             today
           </template>
-          at {{ readableTimestamp }}&bull; edited &bull;
+          at {{ readableTimestamp }}
+          <template v-if="isMsgEdited">&bull; edited &bull;</template>
         </div>
       </div>
     </div>
@@ -67,6 +72,7 @@ export default {
   data() {
     return {
       isMsgMine: "",
+      msgBeforeEdit: null,
       editedChatMsg: null,
       didClickEdit: false,
       isMsgFromToday: null,
@@ -97,12 +103,17 @@ export default {
       let hours = messageTime24HrFormat.getHours();
       let minutes = messageTime24HrFormat.getMinutes();
       return this.convertTo12HrFormat(hours, minutes);
+    },
+    isMsgEdited() {
+      return this.msgPayload.is_edited;
     }
   },
   methods: {
+    ...mapActions(["publishMyEditedMsgToAbly"]),
     editMyMsg(msgId) {
       this.didClickEdit = true;
       this.$nextTick(() => {
+        this.msgBeforeEdit = this.$refs.editMsgPara.innerText;
         this.$refs.editMsgPara.focus();
       });
     },
@@ -110,7 +121,11 @@ export default {
       this.didClickEdit = false;
     },
     saveEditedMsg() {
-      this.editedChatMsg = this.$refs.editMsgPara.textContent;
+      this.editedChatMsg = this.$refs.editMsgPara.innerText;
+      if (this.msgBeforeEdit != this.editedChatMsg) {
+        this.isMsgEdited = true;
+        this.publishMyEditedMsg();
+      }
       this.didClickEdit = false;
     },
     isToday(msgDate) {
@@ -130,6 +145,13 @@ export default {
       let ampm = hours < 12 ? "am" : "pm";
       hours = hours % 12 || 12;
       return `${hours}:${minutes} ${ampm} `;
+    },
+    publishMyEditedMsg() {
+      this.publishMyEditedMsgToAbly({
+        editedMsg: this.editedChatMsg,
+        msgIdToEdit: this.msgPayload.msg_id
+      });
+      this.editedChatMsg = null;
     }
   },
   created() {
