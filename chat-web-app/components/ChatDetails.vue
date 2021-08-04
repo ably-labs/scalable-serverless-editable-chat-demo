@@ -1,5 +1,5 @@
 <template>
-  <div class="p-5 text-xl border-l-2 border-r-2 border-gray-800  flex flex-col">
+  <div class="chat-details-container">
     <div class="">
       <font-awesome-icon
         class="mr-2 text-sm text-center my-0.5 text-green-600"
@@ -25,3 +25,31 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+@media (max-width: 1009px) {
+  .chat-details-container {
+    position: absolute;
+    left: 0;
+    top: 10vh;
+    height: 90vh;
+    width: 5rem;
+    background-color: yellow;
+    transition: width 1s ease-in-out;
+  }
+
+  .chat-details-container:after {
+    content: "";
+    display: block;
+    width: 5rem;
+    height: 5rem;
+    background: url(../assets/user.png) no-repeat center 5rem #ff0000;
+  }
+}
+
+@media (min-width: 1110px) {
+  .chat-details-container {
+    @apply p-5 text-xl border-l-2 border-r-2 border-gray-800  flex flex-col;
+  }
+}
+</style>

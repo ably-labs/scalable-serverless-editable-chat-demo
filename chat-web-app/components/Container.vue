@@ -42,42 +42,53 @@ export default {
 </script>
 
 <style>
-.grid {
-  display: grid;
-  grid-template-rows: 100px 1fr 10fr 1fr;
-  grid-template-columns: 100px 1fr 3fr 2fr;
-  grid-template-areas:
-    "left-navbar topbar topbar topbar"
-    "left-navbar chat-details chat-header live-info"
-    "left-navbar chat-details chat-messages-container live-info"
-    "left-navbar chat-details chat-input live-info";
-  height: 100vh;
+@media (max-width: 1009px) {
+  .left-navbar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 5rem;
+  }
+
+  .live-info {
+    display: none;
+  }
 }
 
-.left-navbar {
-  grid-area: left-navbar;
-}
+@media (min-width: 1110px) {
+  .grid {
+    display: grid;
+    grid-template-rows: 100px 1fr 10fr 1fr;
+    grid-template-columns: 100px 1fr 2.75fr 2.25fr;
+    grid-template-areas:
+      "left-navbar topbar topbar topbar"
+      "left-navbar chat-details chat-header live-info"
+      "left-navbar chat-details chat-messages-container live-info"
+      "left-navbar chat-details chat-input live-info";
+    height: 100vh;
+  }
+  .left-navbar {
+    grid-area: left-navbar;
+  }
 
-.topbar {
-  grid-area: topbar;
-}
-.chat-header {
-  grid-area: chat-header;
-}
-.chat-details {
-  grid-area: chat-details;
-}
-
-.live-info {
-  grid-area: live-info;
-}
-
-.chat-messages-container {
-  grid-area: chat-messages-container;
-  overflow-y: scroll;
-}
-
-.chat-input {
-  grid-area: chat-input;
+  .topbar {
+    grid-area: topbar;
+  }
+  .chat-header {
+    grid-area: chat-header;
+  }
+  .chat-details {
+    grid-area: chat-details;
+  }
+  .live-info {
+    grid-area: live-info;
+  }
+  .chat-messages-container {
+    grid-area: chat-messages-container;
+    overflow-y: scroll;
+  }
+  .chat-input {
+    grid-area: chat-input;
+  }
 }
 </style>
