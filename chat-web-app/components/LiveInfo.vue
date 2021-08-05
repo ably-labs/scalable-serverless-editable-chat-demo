@@ -18,7 +18,7 @@
         Start by entering the chat.
       </div>
       <div v-highlight class="text-xs">
-        <vue-code-highlight language="javascript">
+        <VueCodeHighlight language="javascript">
           <pre>
 
     ablyRealtimeInstance = new Ably.Realtime({
@@ -33,7 +33,7 @@
 
  </pre
           >
-        </vue-code-highlight>
+        </VueCodeHighlight>
       </div>
     </div>
   </div>

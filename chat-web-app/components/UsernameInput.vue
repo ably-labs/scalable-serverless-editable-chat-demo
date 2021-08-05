@@ -1,17 +1,17 @@
 <template>
-  <div class="flex justify-center items-center align-middle w-full">
+  <div class="username-container">
     <input
       type="text"
-      class="border border-gray-600 rounded-xl bg-transparent pl-8 p-2 m-3 w-5/6 text-white"
-      placeholder="Enter a nickname to start chatting..."
+      class="username-input-box"
+      placeholder="Add a nickname"
       v-model="username"
       @keyup.enter="setUsernameAndEnterChat(username)"
     />
     <button
-      class="rounded-xl bg-purple-500 p-2 m-3 w-1/6 border border-purple-500"
+      class="username-input-btn"
       @click="setUsernameAndEnterChat(username)"
     >
-      Enter chat
+      Enter
     </button>
   </div>
 </template>
@@ -33,3 +33,33 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+@media (max-width: 1009px) {
+  .username-container {
+    @apply flex flex-col w-full text-center justify-center items-center text-sm;
+  }
+
+  .username-input-box {
+    @apply border border-gray-600 rounded-xl bg-transparent p-2 w-5/6 text-white text-center;
+  }
+
+  .username-input-btn {
+    @apply rounded-xl bg-purple-500 p-2 m-1 w-5/6 border border-purple-500;
+  }
+}
+
+@screen md {
+  .username-container {
+    @apply flex justify-center items-center align-middle w-full;
+  }
+
+  .username-input-box {
+    @apply border border-gray-600 rounded-xl bg-transparent pl-8 p-2 m-3 w-5/6 text-white;
+  }
+
+  .username-input-btn {
+    @apply rounded-xl bg-purple-500 p-2 m-3 w-1/6 border border-purple-500;
+  }
+}
+</style>

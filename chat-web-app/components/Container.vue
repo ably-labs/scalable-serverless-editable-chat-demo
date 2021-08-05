@@ -1,14 +1,28 @@
 <template>
-  <div class="grid text-gray-200 font-sans max-h-screen">
-    <LeftNavBar class="left-navbar" />
+  <div class="app-container">
+    <LeftNavBar class="left-navbar" v-if="!isPresenceListMobileOpen" />
     <TopBar class="topbar" />
+    <div class="presence-list-container">
+      <button
+        class="show-presence-list-btn"
+        @click="showPresenceListOnMobile()"
+      >
+        <font-awesome-icon :icon="['fas', 'user']" />
+        <p>2</p>
+        <transition name="slide-in-out">
+          <div v-if="isPresenceListMobileOpen">
+            <ChatDetails class="" />
+          </div>
+        </transition>
+      </button>
+    </div>
     <ChatDetails class="chat-details" />
-    <ChatHeader class="chat-header " />
+    <ChatHeader class="chat-header" />
     <ChatMessagesContainer
       class="chat-messages-container"
       v-if="getIsUsernameEntered"
     />
-    <UsernameInput v-if="!getIsUsernameEntered" />
+    <UsernameInput class="username-input" v-if="!getIsUsernameEntered" />
     <ChatInput class="chat-input" />
     <LiveInfo class="live-info" />
   </div>
@@ -18,8 +32,16 @@
 import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
+  data() {
+    return {
+      isPresenceListMobileOpen: false
+    };
+  },
   methods: {
-    ...mapActions(["instantiateAbly", "enterClientInAblyPresenceSet"])
+    ...mapActions(["instantiateAbly", "enterClientInAblyPresenceSet"]),
+    showPresenceListOnMobile() {
+      this.isPresenceListMobileOpen = !this.isPresenceListMobileOpen;
+    }
   },
   computed: {
     ...mapGetters([
@@ -43,19 +65,74 @@ export default {
 
 <style>
 @media (max-width: 1009px) {
+  .presence-list-container {
+    position: absolute;
+    left: 0;
+    top: 15vh;
+    width: 15vw;
+    height: 20vh;
+    @apply m-2 border-r border-gray-800 text-center;
+  }
+
+  .show-presence-list-btn {
+    @apply m-1;
+  }
   .left-navbar {
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 5rem;
+    width: 15vw;
+    height: 65vh;
   }
-
   .live-info {
     display: none;
   }
+  .chat-header {
+    display: none;
+  }
+  .chat-details {
+    display: none;
+  }
+  .chat-messages-container {
+    width: 100vw;
+    padding-left: 20vw;
+    height: 75vh;
+  }
+  .username-input {
+    width: 85vw;
+    padding-left: 20vw;
+    height: 85vh;
+  }
+
+  .chat-input {
+    width: 100vw;
+    padding-left: 20vw;
+  }
+
+  .slide-in-out-enter-active {
+    animation: slide-in-out 0.5s reverse;
+  }
+
+  .slide-in-out-leave-active {
+    animation: slide-in-out 0.5s;
+  }
+  @keyframes slide-in-out {
+    0% {
+      margin-left: 0%;
+    }
+    100% {
+      margin-left: -100%;
+    }
+  }
 }
 
-@media (min-width: 1110px) {
+@screen md {
+  .presence-list-container {
+    display: none;
+  }
+  .app-container {
+    @apply grid text-gray-200 font-sans max-h-screen;
+  }
   .grid {
     display: grid;
     grid-template-rows: 100px 1fr 10fr 1fr;

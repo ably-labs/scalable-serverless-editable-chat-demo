@@ -1,10 +1,7 @@
 <template>
   <div class="chat-details-container">
     <div class="">
-      <font-awesome-icon
-        class="mr-2 text-sm text-center my-0.5 text-green-600"
-        :icon="['fas', 'circle']"
-      />
+      <font-awesome-icon class="online-green-icon" :icon="['fas', 'circle']" />
       Online now ({{ getPresenceCount }})
     </div>
     <div class="overflow-y-scroll">
@@ -27,7 +24,7 @@ export default {
 </script>
 
 <style scoped>
-@media (max-width: 1009px) {
+/* @media (max-width: 1009px) {
   .chat-details-container {
     position: absolute;
     left: 0;
@@ -45,11 +42,15 @@ export default {
     height: 5rem;
     background: url(../assets/user.png) no-repeat center 5rem #ff0000;
   }
-}
+} */
 
-@media (min-width: 1110px) {
+@screen md {
   .chat-details-container {
-    @apply p-5 text-xl border-l-2 border-r-2 border-gray-800  flex flex-col;
+    @apply p-5 text-xl border-l-2 border-r-2 border-gray-800 flex flex-col;
+  }
+
+  .online-green-icon {
+    @apply mr-2 text-sm text-center my-0.5 text-green-600;
   }
 }
 </style>
