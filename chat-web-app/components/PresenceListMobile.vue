@@ -1,5 +1,5 @@
 <template>
-  <div class="chat-details-container">
+  <div class="presence-list-section-container">
     <div class="">
       <font-awesome-icon class="online-green-icon" :icon="['fas', 'circle']" />
       Online now ({{ getPresenceCount }})
@@ -24,29 +24,10 @@ export default {
 </script>
 
 <style scoped>
-/* @media (max-width: 1009px) {
-  .chat-details-container {
-    position: absolute;
-    left: 0;
-    top: 10vh;
-    height: 90vh;
-    width: 5rem;
-    background-color: yellow;
-    transition: width 1s ease-in-out;
-  }
-
-  .chat-details-container:after {
-    content: "";
-    display: block;
-    width: 5rem;
-    height: 5rem;
-    background: url(../assets/user.png) no-repeat center 5rem #ff0000;
-  }
-} */
-
-@screen md {
-  .chat-details-container {
-    @apply p-5 text-xl border-l-2 border-r-2 border-gray-800 flex flex-col;
+@media (max-width: 1009px) {
+  .presence-list-section-container {
+    @apply p-5 text-base border-l-0 border border-white flex flex-col w-60 bg-gray-900 rounded-tr-xl rounded-br-xl text-justify;
+    height: 75vh;
   }
 
   .online-green-icon {

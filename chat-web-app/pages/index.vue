@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen max-h-screen background">
-    <Container />
+    <AppContainer />
   </div>
 </template>
 

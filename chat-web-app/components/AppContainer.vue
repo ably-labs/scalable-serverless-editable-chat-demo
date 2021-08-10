@@ -1,22 +1,22 @@
 <template>
   <div class="app-container">
-    <LeftNavBar class="left-navbar" v-if="!isPresenceListMobileOpen" />
-    <TopBar class="topbar" />
+    <TechStackSection class="tech-stack-section" />
+    <Header class="header" />
     <div class="presence-list-container">
       <button
-        class="show-presence-list-btn"
+        class="show-presence-list-btn "
         @click="showPresenceListOnMobile()"
       >
         <font-awesome-icon :icon="['fas', 'user']" />
-        <p>2</p>
-        <transition name="slide-in-out">
-          <div v-if="isPresenceListMobileOpen">
-            <ChatDetails class="" />
-          </div>
-        </transition>
+        <p>3</p>
       </button>
+      <transition name="slide-in-out">
+        <div v-if="isPresenceListMobileOpen">
+          <PresenceListMobile />
+        </div>
+      </transition>
     </div>
-    <ChatDetails class="chat-details" />
+    <PresenceListSection class="presence-list-section" />
     <ChatHeader class="chat-header" />
     <ChatMessagesContainer
       class="chat-messages-container"
@@ -71,13 +71,13 @@ export default {
     top: 15vh;
     width: 15vw;
     height: 20vh;
-    @apply m-2 border-r border-gray-800 text-center;
+    @apply m-2  text-center border-r border-gray-800;
   }
 
   .show-presence-list-btn {
     @apply m-1;
   }
-  .left-navbar {
+  .tech-stack-section {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -90,7 +90,7 @@ export default {
   .chat-header {
     display: none;
   }
-  .chat-details {
+  .presence-list-section {
     display: none;
   }
   .chat-messages-container {
@@ -110,18 +110,18 @@ export default {
   }
 
   .slide-in-out-enter-active {
-    animation: slide-in-out 0.5s reverse;
+    animation: slide-in-out 0.8s reverse;
   }
 
   .slide-in-out-leave-active {
-    animation: slide-in-out 0.5s;
+    animation: slide-in-out 0.8s;
   }
   @keyframes slide-in-out {
     0% {
       margin-left: 0%;
     }
     100% {
-      margin-left: -100%;
+      margin-left: -500%;
     }
   }
 }
@@ -138,24 +138,24 @@ export default {
     grid-template-rows: 100px 1fr 10fr 1fr;
     grid-template-columns: 100px 1fr 2.75fr 2.25fr;
     grid-template-areas:
-      "left-navbar topbar topbar topbar"
-      "left-navbar chat-details chat-header live-info"
-      "left-navbar chat-details chat-messages-container live-info"
-      "left-navbar chat-details chat-input live-info";
+      "tech-stack-section header header header"
+      "tech-stack-section presence-list-section chat-header live-info"
+      "tech-stack-section presence-list-section chat-messages-container live-info"
+      "tech-stack-section presence-list-section chat-input live-info";
     height: 100vh;
   }
-  .left-navbar {
-    grid-area: left-navbar;
+  .tech-stack-section {
+    grid-area: tech-stack-section;
   }
 
-  .topbar {
-    grid-area: topbar;
+  .header {
+    grid-area: header;
   }
   .chat-header {
     grid-area: chat-header;
   }
-  .chat-details {
-    grid-area: chat-details;
+  .presence-list-section {
+    grid-area: presence-list-section;
   }
   .live-info {
     grid-area: live-info;
