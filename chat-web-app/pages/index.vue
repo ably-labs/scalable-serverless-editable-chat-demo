@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen max-h-screen background">
-    <Container />
+    <AppContainer />
   </div>
 </template>
 
@@ -20,5 +20,31 @@ export default {
 <style>
 .background {
   background: linear-gradient(120deg, #040f18, #111e36);
+  @apply text-white;
+}
+
+/* 
+@screen sm {
+  .background {
+    background-color: red;
+  }
+}
+
+@screen md {
+  .background {
+    background-color: yellow;
+  }
+}
+
+@screen xl {
+  .background {
+    background-color: plum;
+  }
+} */
+
+@screen lg {
+  .background {
+    background: linear-gradient(120deg, #040f18, #111e36);
+  }
 }
 </style>

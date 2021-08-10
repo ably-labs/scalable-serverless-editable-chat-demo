@@ -8,29 +8,20 @@
     >
       <div v-if="isMsgMine && !didClickEdit">
         <button @click="editMyMsg(msgPayload.msg_id)">
-          <font-awesome-icon
-            class="mr-2 text-sm text-center text-white"
-            :icon="['fas', 'pencil-alt']"
-          />
+          <font-awesome-icon class="update-btn" :icon="['fas', 'pencil-alt']" />
         </button>
       </div>
       <div v-if="isMsgMine && didClickEdit" class="flex flex-col">
         <button @click="saveEditedMsg()">
-          <font-awesome-icon
-            class="mr-2 text-sm text-center text-white"
-            :icon="['fas', 'check']"
-          />
+          <font-awesome-icon class="update-btn" :icon="['fas', 'check']" />
         </button>
         <button @click="cancelEditMsg(msgPayload.msg_id)">
-          <font-awesome-icon
-            class="mr-2 text-sm text-center text-white"
-            :icon="['fas', 'times']"
-          />
+          <font-awesome-icon class="update-btn" :icon="['fas', 'times']" />
         </button>
       </div>
-      <div class="w-8/12 m-4">
+      <div class="message-card">
         <div
-          class="rounded-xl p-3"
+          class="message-box"
           :class="{
             'bg-gray-800': !isMsgMine,
             'bg-purple-500': isMsgMine
@@ -45,18 +36,18 @@
           </div>
         </div>
         <div
-          class="text-xs px-3 py-1 flex items-center"
+          class="message-metadata"
           :class="{
             'flex-row-reverse': isMsgMine
           }"
         >
           by {{ msgPayload.username }}
-          <template v-if="!isMsgFromToday">
+          <!-- <template v-if="!isMsgFromToday">
             on {{ date }}/{{ month }}
           </template>
           <template v-if="isMsgFromToday">
             today
-          </template>
+          </template> -->
           at {{ readableTimestamp }}
           <template v-if="isMsgEdited">&bull; edited &bull;</template>
         </div>
@@ -159,3 +150,37 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.message-box {
+  @apply rounded-xl p-3 text-base;
+}
+
+.message-metadata {
+  @apply text-xs px-3 py-1 flex items-center text-gray-500;
+}
+
+.message-card {
+  @apply w-8/12 m-4;
+}
+
+.update-btn {
+  @apply mr-2 text-sm text-center text-white;
+}
+
+@media (max-width: 1009px) {
+  .message-box {
+    @apply rounded-lg px-3 py-2 mt-1 text-sm;
+  }
+  .message-metadata {
+    font-size: 0.6rem;
+    @apply px-3 py-1 flex items-center;
+  }
+  .message-card {
+    @apply w-8/12 m-1;
+  }
+  .update-btn {
+    @apply mx-1;
+  }
+}
+</style>

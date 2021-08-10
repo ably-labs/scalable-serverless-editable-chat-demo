@@ -1,10 +1,7 @@
 <template>
-  <div class="p-5 text-xl border-l-2 border-r-2 border-gray-800  flex flex-col">
+  <div class="presence-list-section-container">
     <div class="">
-      <font-awesome-icon
-        class="mr-2 text-sm text-center my-0.5 text-green-600"
-        :icon="['fas', 'circle']"
-      />
+      <font-awesome-icon class="online-green-icon" :icon="['fas', 'circle']" />
       Online now ({{ getPresenceCount }})
     </div>
     <div class="overflow-y-scroll">
@@ -25,3 +22,16 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+@media (max-width: 1009px) {
+  .presence-list-section-container {
+    @apply p-5 text-base border-l-0 border border-white flex flex-col w-60 bg-gray-900 rounded-tr-xl rounded-br-xl text-justify;
+    height: 75vh;
+  }
+
+  .online-green-icon {
+    @apply mr-2 text-sm text-center my-0.5 text-green-600;
+  }
+}
+</style>

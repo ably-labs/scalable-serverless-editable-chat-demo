@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col" ref="chatMessagesContainer">
+  <div class="chat-msgs-container" ref="chatMessagesContainer">
     <div class="overflow-y-scroll" id="container">
       <SingleChatMsgCard
         v-for="msg in getChatMessagesArr"
@@ -25,4 +25,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.chat-msgs-container {
+  @apply flex flex-col;
+}
+</style>
