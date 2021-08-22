@@ -85,20 +85,14 @@ const createStore = () => {
     actions: {
       //Ably init
       instantiateAbly(vueContext) {
-        vueContext.commit(
-          "setAblyClientId",
-          "clientId-" +
-            Math.random()
-              .toString(36)
-              .substr(2, 16)
-        );
-
         const ablyInstance = new Ably.Realtime({
-          key: process.env.ABLY_API_KEY,
-          clientId: this.state.ablyClientId,
+          authUrl:
+            "https://serverless-scalable-chat.netlify.app/.netlify/functions/ably-auth",
           echoMessages: false
         });
+
         ablyInstance.connection.once("connected", () => {
+          vueContext.commit("setAblyClientId", ablyInstance.auth.clientId);
           vueContext.commit("setAblyConnectionStatus", true);
           vueContext.commit("setAblyRealtimeInstance", ablyInstance);
           vueContext.dispatch("attachToAblyChannels");

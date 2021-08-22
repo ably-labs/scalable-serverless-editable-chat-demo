@@ -4,7 +4,7 @@ const rest = new Ably.Rest({ key: process.env.ABLY_API_KEY });
 exports.handler = (_event, _context, callback) => {
   rest.auth.createTokenRequest(
     {
-      clientId: String(Math.random()),
+      clientId: "clientId-" + Math.random().toString(36).substr(2, 16),
     },
     (err, tokenRequest) => {
       if (err) {
