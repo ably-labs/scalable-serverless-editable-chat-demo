@@ -42,10 +42,10 @@
           }"
         >
           by {{ msgPayload.username }}
-          <!-- <template v-if="!isMsgFromToday">
+          <template v-if="!isMsgFromToday">
             on {{ date }}/{{ month }}
           </template>
-          <template v-if="isMsgFromToday">
+          <!-- <template v-if="isMsgFromToday">
             today
           </template> -->
           at {{ readableTimestamp }}
@@ -114,7 +114,7 @@ export default {
     saveEditedMsg() {
       this.editedChatMsg = this.$refs.editMsgPara.innerText;
       if (this.msgBeforeEdit != this.editedChatMsg) {
-        this.isMsgEdited = true;
+        //this.isMsgEdited = true;
         this.publishMyEditedMsg();
       }
       this.didClickEdit = false;

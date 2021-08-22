@@ -8,7 +8,7 @@
         @click="showPresenceListOnMobile()"
       >
         <font-awesome-icon :icon="['fas', 'user']" />
-        <p>3</p>
+        <p>{{ this.getPresenceCount }}</p>
       </button>
       <transition name="slide-in-out">
         <div v-if="isPresenceListMobileOpen">
@@ -24,7 +24,7 @@
     />
     <UsernameInput class="username-input" v-if="!getIsUsernameEntered" />
     <ChatInput class="chat-input" />
-    <LiveInfo class="live-info" />
+    <InfoSection class="info-section" />
   </div>
 </template>
 
@@ -47,7 +47,8 @@ export default {
     ...mapGetters([
       "getIsUsernameEntered",
       "getUsername",
-      "getIsAblyConnectedStatus"
+      "getIsAblyConnectedStatus",
+      "getPresenceCount"
     ])
   },
   watch: {
@@ -57,9 +58,7 @@ export default {
       }
     }
   },
-  created() {
-    console.log(this.getIsUsernameEntered, this.getUsername);
-  }
+  created() {}
 };
 </script>
 
@@ -84,7 +83,7 @@ export default {
     width: 15vw;
     height: 65vh;
   }
-  .live-info {
+  .info-section {
     display: none;
   }
   .chat-header {
@@ -136,12 +135,12 @@ export default {
   .grid {
     display: grid;
     grid-template-rows: 100px 1fr 10fr 1fr;
-    grid-template-columns: 100px 1fr 2.75fr 2.25fr;
+    grid-template-columns: 100px 1fr 2.75fr minmax(auto, 40%);
     grid-template-areas:
       "tech-stack-section header header header"
-      "tech-stack-section presence-list-section chat-header live-info"
-      "tech-stack-section presence-list-section chat-messages-container live-info"
-      "tech-stack-section presence-list-section chat-input live-info";
+      "tech-stack-section presence-list-section chat-header info-section"
+      "tech-stack-section presence-list-section chat-messages-container info-section"
+      "tech-stack-section presence-list-section chat-input info-section";
     height: 100vh;
   }
   .tech-stack-section {
@@ -157,8 +156,8 @@ export default {
   .presence-list-section {
     grid-area: presence-list-section;
   }
-  .live-info {
-    grid-area: live-info;
+  .info-section {
+    grid-area: info-section;
   }
   .chat-messages-container {
     grid-area: chat-messages-container;

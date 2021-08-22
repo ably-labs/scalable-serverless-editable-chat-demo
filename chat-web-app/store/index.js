@@ -9,7 +9,7 @@ const createStore = () => {
       ablyClientId: null,
       channelNames: {
         outgoingChat: "outgoing-chat",
-        incomingChat: "incoming-chat"
+        incomingChat: "[?rewind=2m]incoming-chat"
       },
       channelInstances: {
         outgoingChat: null,
@@ -22,7 +22,8 @@ const createStore = () => {
       username: null,
       presenceCount: 0,
       onlineMembersArr: [],
-      chatMessagesArr: []
+      chatMessagesArr: [],
+      msgArrUpdateType: "new"
     },
     getters: {
       getOutgoingChInstance: state => state.channelInstances.outgoingChat,
@@ -35,7 +36,8 @@ const createStore = () => {
       getMyClientId: state => state.ablyClientId,
       getOnlineMembersArr: state => state.onlineMembersArr,
       getChatMessagesArr: state => state.chatMessagesArr,
-      getIsUsernameEntered: state => state.username != null
+      getIsUsernameEntered: state => state.username != null,
+      getChatMessagesArrUpdateType: state => state.msgArrUpdateType
     },
 
     mutations: {
@@ -74,6 +76,9 @@ const createStore = () => {
           ),
           1
         );
+      },
+      setChatMsgArrUpdateType(state, updateType) {
+        state.msgArrUpdateType = updateType;
       }
     },
 
@@ -93,13 +98,11 @@ const createStore = () => {
           clientId: this.state.ablyClientId,
           echoMessages: false
         });
-        console.log("my client id", this.state.ablyClientId);
         ablyInstance.connection.once("connected", () => {
           vueContext.commit("setAblyConnectionStatus", true);
           vueContext.commit("setAblyRealtimeInstance", ablyInstance);
           vueContext.dispatch("attachToAblyChannels");
           vueContext.dispatch("subscribeToAblyPresence");
-          // vueContext.dispatch("enterClientInAblyPresenceSet");
         });
       },
       attachToAblyChannels(vueContext) {
@@ -119,13 +122,15 @@ const createStore = () => {
         vueContext.dispatch("subscribeToChannels");
       },
 
-      subscribeToChannels({ state, dispatch }) {
+      subscribeToChannels({ commit, state, dispatch }) {
         state.channelInstances.incomingChat.subscribe(msg => {
           let msgPayload = JSON.parse(msg.data);
           let operationPerformed = msgPayload.type;
           if (operationPerformed == "INSERT") {
+            commit("setChatMsgArrUpdateType", "new");
             state.chatMessagesArr.push(msgPayload.row);
           } else if (operationPerformed == "UPDATE") {
+            commit("setChatMsgArrUpdateType", "edit");
             let msgObjToEdit = state.chatMessagesArr.find(
               msg => msg.msg_id == msgPayload.row.msg_id
             );
@@ -139,6 +144,7 @@ const createStore = () => {
           "enter",
           msg => {
             console.log("Entered", msg);
+
             vueContext.dispatch("handleNewMemberEntered", msg);
           }
         );
