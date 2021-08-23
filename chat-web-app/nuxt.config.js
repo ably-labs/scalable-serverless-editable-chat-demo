@@ -7,7 +7,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: "Serverless chat app",
+    title: "Serverless chat",
     htmlAttrs: {
       lang: "en"
     },
