@@ -21,4 +21,3 @@ This project depends on the [Ably Postgres connector](https://github.com/ably-la
 
 ![Serverless chat app architecture](https://user-images.githubusercontent.com/5900152/130453795-22ec340b-45ce-4172-9956-4893b22ca699.jpeg)
 
-![Serverless chat app demo](https://user-images.githubusercontent.com/5900152/130455212-66cd2ee7-a342-4552-be78-45d450aacd10.mp4)
