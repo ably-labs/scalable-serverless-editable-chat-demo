@@ -5,12 +5,12 @@
     </h1>
     <div class="github-buttons">
       <gh-btns-star
-        slug="ably-labs/jamstack-sync-stream-video"
+        slug="ably-labs/scalable-serverless-chat-demo"
         show-count
         class="gh-btn"
       ></gh-btns-star>
       <gh-btns-fork
-        slug="ably-labs/jamstack-sync-stream-video"
+        slug="ably-labs/scalable-serverless-chat-demo"
         show-count
         class="gh-btn"
       ></gh-btns-fork>
