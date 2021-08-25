@@ -138,10 +138,10 @@ export default {
       return `${hours}:${minutes} ${ampm} `;
     },
     publishMyEditedMsg() {
-      this.publishMyEditedMsgToAbly({
-        editedMsg: this.editedChatMsg,
-        msgIdToEdit: this.msgPayload.msg_id
-      });
+
+      // Why don't we just inject the correct ably channel and publish to it rather than callback into a function exported from the state dictionary?
+
+      this.publishMyEditedMsgToAbly({ editedMsg: this.editedChatMsg, msgIdToEdit: this.msgPayload.msg_id });
       this.editedChatMsg = null;
     }
   },

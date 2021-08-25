@@ -1,6 +1,11 @@
 import Vuex from "vuex";
 import * as Ably from "ably";
 
+// What does vueX get us in this context?
+// Feels like this could be a single page Vue app?
+
+// The use of state management here makes the flow of control through the sample really hard to follow
+
 const createStore = () => {
   return new Vuex.Store({
     state: {
@@ -69,7 +74,7 @@ const createStore = () => {
       setOnlineMembersArrInsert(state, memberObj) {
         state.onlineMembersArr.push(memberObj);
       },
-      setOnlineMembersArrRemoval(state, clientId) {
+      setOnlineMembersArrRemoval(state, clientId) { // "ArrRemoval" => Array?
         state.onlineMembersArr.splice(
           state.onlineMembersArr.findIndex(
             presenceEntry => presenceEntry.id === clientId
@@ -97,6 +102,10 @@ const createStore = () => {
           vueContext.dispatch("attachToAblyChannels");
           vueContext.dispatch("subscribeToAblyPresence");
         });
+
+        // Could we just use async / await here and just get the outgoing / incoming channels here rather
+        // than dispatching to another action?
+
       },
       attachToAblyChannels(vueContext) {
         const outgoingCh = this.state.ablyRealtimeInstance.channels.get(
@@ -107,10 +116,7 @@ const createStore = () => {
           this.state.channelNames.incomingChat
         );
 
-        vueContext.commit("setAblyChannelInstances", {
-          outgoingCh,
-          incomingCh
-        });
+        vueContext.commit("setAblyChannelInstances", { outgoingCh, incomingCh });
 
         vueContext.dispatch("subscribeToChannels");
       },
@@ -119,10 +125,16 @@ const createStore = () => {
         state.channelInstances.incomingChat.subscribe(msg => {
           let msgPayload = JSON.parse(msg.data);
           let operationPerformed = msgPayload.type;
+
+          // A little space here to help the reader.
+
           if (operationPerformed == "INSERT") {
+
             commit("setChatMsgArrUpdateType", "new");
             state.chatMessagesArr.push(msgPayload.row);
+
           } else if (operationPerformed == "UPDATE") {
+
             commit("setChatMsgArrUpdateType", "edit");
             let msgObjToEdit = state.chatMessagesArr.find(
               msg => msg.msg_id == msgPayload.row.msg_id
@@ -130,6 +142,7 @@ const createStore = () => {
             msgObjToEdit.msg_data = msgPayload.row.msg_data;
             msgObjToEdit.is_edited = msgPayload.row.is_edited;
           }
+
         });
       },
       subscribeToAblyPresence(vueContext) {
@@ -148,6 +161,9 @@ const createStore = () => {
             vueContext.dispatch("handleExistingMemberLeft", msg);
           }
         );
+
+        // use async await here rather than (err, presenceList)
+
         this.state.channelInstances.outgoingChat.presence.get(
           (err, presenceList) => {
             for (const member in presenceList) {

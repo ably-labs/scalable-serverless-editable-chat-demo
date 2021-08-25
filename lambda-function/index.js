@@ -22,12 +22,18 @@ exports.handler = (incomingObject, context, callback) => {
       msgPayload.clientId,
       msgPayload.timestamp,
     ];
+
+    // async await?
+
     client.query(queryText, queryValues, (err, res) => {
       console.log("Error", err);
       console.log("Result", res);
       client.end();
     });
+
+    // Can we return some valid json here?
     return "insert function done";
+
   } else if (msgPayload.name == "editedMsg") {
     const queryText =
       "UPDATE chat_data SET msg_data = $1, is_edited = $2 WHERE msg_id = $3";
@@ -37,7 +43,12 @@ exports.handler = (incomingObject, context, callback) => {
       console.log("Result", res);
       client.end();
     });
+
+    // Can we return some valid json here?
     return "update function done";
   }
+
+  
+  // Can we return some valid json here?
   return "all done";
 };

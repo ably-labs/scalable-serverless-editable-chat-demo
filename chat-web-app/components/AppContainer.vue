@@ -95,12 +95,12 @@ export default {
   .chat-messages-container {
     width: 100vw;
     padding-left: 20vw;
-    height: 75vh;
+    height: 75vh;  /* ordering of css properties, width, height, padding*/
   }
   .username-input {
     width: 85vw;
     padding-left: 20vw;
-    height: 85vh;
+    height: 85vh; /* ordering of css properties, width, height, padding*/
   }
 
   .chat-input {
@@ -120,7 +120,7 @@ export default {
       margin-left: 0%;
     }
     100% {
-      margin-left: -500%;
+      margin-left: -500%; /* where possible, animate on transform: translateX rather than on margin, it makes for smoother, more performant animation */
     }
   }
 }

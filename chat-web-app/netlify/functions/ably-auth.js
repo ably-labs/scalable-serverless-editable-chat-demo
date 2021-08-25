@@ -1,6 +1,8 @@
 const Ably = require("ably");
 const rest = new Ably.Rest({ key: process.env.ABLY_API_KEY });
 
+// Why are we using the Ably.Rest SDK function rather than standard createTokenRequest?.
+
 exports.handler = (_event, _context, callback) => {
   rest.auth.createTokenRequest(
     {

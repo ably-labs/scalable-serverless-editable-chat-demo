@@ -7,6 +7,8 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex";
 
+// Perhaps explain what vuex does here, because this looks like magic if you've never seen it!
+
 export default {
   methods: {
     ...mapActions(["instantiateAbly"])
@@ -22,6 +24,8 @@ export default {
   background: linear-gradient(120deg, #040f18, #111e36);
   @apply text-white;
 }
+
+/* can we remove the below ? */
 
 /* 
 @screen sm {
