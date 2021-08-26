@@ -2,7 +2,7 @@
   <h2 class="chat-header">Group chat</h2>
 </template>
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   computed: {

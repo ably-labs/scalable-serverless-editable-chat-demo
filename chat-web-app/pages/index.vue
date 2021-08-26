@@ -5,9 +5,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
-
-// Perhaps explain what vuex does here, because this looks like magic if you've never seen it!
+import { mapActions } from "vuex";
 
 export default {
   methods: {

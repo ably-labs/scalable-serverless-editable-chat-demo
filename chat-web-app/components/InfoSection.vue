@@ -7,13 +7,17 @@
     </div>
     <div class="overflow-y-scroll">
       <p class="bg-gray-800 my-4 p-4 text-base">
-        <font-awesome-icon class="mr-2 text-base text-centertext-white" :icon="['fas', 'info-circle']" />
+        <font-awesome-icon
+          class="mr-2 text-base text-centertext-white"
+          :icon="['fas', 'info-circle']"
+        />
         This demo shows a fully serverless chat application that can easily
         scale up due to the SaaS components used in the architecture.
         <br />
         <br />
         At its core, is the
-        <a class="text-blue-300 hover:text-blue-400"
+        <a
+          class="text-blue-300 hover:text-blue-400"
           href="https://ably.com/pub-sub-messaging"
           target="_blank"
           >Pub/Sub messaging architecture</a
@@ -23,8 +27,16 @@
         <label for="toggle" class="text-xs text-white"
           >Show architecture diagram
         </label>
-        <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-          <input @click="toggleView()" type="checkbox" name="toggle" id="toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" />
+        <div
+          class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in"
+        >
+          <input
+            @click="toggleView()"
+            type="checkbox"
+            name="toggle"
+            id="toggle"
+            class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+          />
           <label
             for="toggle"
             class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
@@ -33,7 +45,23 @@
       </div>
       <div class="text-xs my-2" v-if="isCurrentViewCodeSnippet">
         <VueCodeHighlight language="javascript">
-          {{ this.pubSubCodeSnippet }}
+          <pre>
+    ablyRealtimeInstance = new Ably.Realtime({ 
+      authUrl: 'your-auth-endpoint',
+    }); 
+
+    chatChannelInstance = ablyRealtimeInstance.channels.get(
+      '[?rewind=2m]chat' 
+    ); 
+
+    chatChannelInstance.subscribe(msg)=> {
+      handleNewMsg(msg) 
+    }); 
+
+    chatChannelInstance.publish('chat-msg', {
+      chatData 
+    });
+          </pre>
         </VueCodeHighlight>
       </div>
       <div class="text-xs my-2" v-if="!isCurrentViewCodeSnippet">
@@ -47,14 +75,13 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapGetters } from "vuex";
 import { component as VueCodeHighlight } from "vue-code-highlight";
 import "vue-code-highlight/themes/prism.css";
 
 export default {
   data() {
     return {
-      pubSubCodeSnippet: null,
       isCurrentViewCodeSnippet: true
     };
   },
@@ -68,26 +95,6 @@ export default {
     toggleView() {
       this.isCurrentViewCodeSnippet = !this.isCurrentViewCodeSnippet;
     }
-  },
-  created() {
-
-    // This is super misleading and looks like code that will execute on creation rather than just being a string. This should be markup
-
-    this.pubSubCodeSnippet = `
-  ablyRealtimeInstance = new Ably.Realtime({
-    authUrl: '<auth-endpoint>',
-  });
-
-  chatChannelInstance = ablyRealtimeInstance.channels.get(
-      '[?rewind=2m]chat'
-  );
-
-  chatChannelInstance.subscribe(msg)=> { 
-    handleNewMsg(msg) 
-  });
-
-  chatChannelInstance.publish('chat-msg', { chatData });
-  `;
   }
 };
 </script>

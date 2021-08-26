@@ -7,14 +7,10 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
-
 export default {
   props: ["memberData"],
   data() {
-    return {
-      tri: "user-ninja"
-    };
+    return {};
   }
 };
 </script>

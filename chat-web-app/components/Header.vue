@@ -18,23 +18,6 @@
   </header>
 </template>
 <style scoped>
-/* @media (max-width: 1009px) {
-  h1 {
-    margin-bottom: 1rem;
-    font-size: 5vw;
-    line-height: 1.2em;
-    text-align: center;
-  }
-  .github-buttons {
-    margin: 5px;
-    display: flex;
-    justify-content: center;
-  }
-  .top-bar-container {
-    @apply py-5;
-  }
-} */
-
 @media (max-width: 1009px) {
   .app-title {
     @apply font-bold text-xl;

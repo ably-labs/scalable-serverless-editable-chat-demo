@@ -6,7 +6,7 @@
     </div>
     <div class="overflow-y-scroll">
       <SingleOnlineMember
-        v-for="member in getOnlineMembersArr"
+        v-for="member in getOnlineMembersArray"
         :key="member.id"
         :memberData="member"
       />
@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters(["getOnlineMembersArr", "getPresenceCount"])
+    ...mapGetters(["getOnlineMembersArray", "getPresenceCount"])
   }
 };
 </script>
