@@ -14,12 +14,12 @@ export default {
       vueContext.commit("setAblyClientId", ablyInstance.auth.clientId);
       vueContext.commit("setAblyConnectionStatus", true);
       vueContext.commit("setAblyRealtimeInstance", ablyInstance);
-      vueContext.dispatch("attachToAblyChannels");
+      vueContext.dispatch("initAblyChannels");
       vueContext.dispatch("subscribeToAblyPresence");
     });
   },
   // attach to the incoming and outgoing channels
-  attachToAblyChannels(vueContext) {
+  initAblyChannels(vueContext) {
     const outgoingCh = this.state.ablyRealtimeInstance.channels.get(
       this.state.channelNames.outgoingChat
     );
@@ -28,10 +28,7 @@ export default {
       this.state.channelNames.incomingChat
     );
 
-    vueContext.commit("setAblyChannelInstances", {
-      outgoingCh,
-      incomingCh
-    });
+    vueContext.commit("setAblyChannelInstances", { outgoingCh, incomingCh });
 
     vueContext.dispatch("subscribeToChannels");
   },
@@ -42,10 +39,13 @@ export default {
       let msgPayload = JSON.parse(msg.data);
       let operationPerformed = msgPayload.type;
 
+      /* check if the update is about a new message being inserted or an existing message being edited */
       if (operationPerformed == "INSERT") {
+        // set the update type to new, so we can scroll the message list to bottom
         commit("setChatMsgArrayUpdateType", "new");
         state.chatMessagesArray.push(msgPayload.row);
       } else if (operationPerformed == "UPDATE") {
+        // set the update type to edit, find and update the array object with new data
         commit("setChatMsgArrayUpdateType", "edit");
         let msgObjToEdit = state.chatMessagesArray.find(
           msg => msg.msg_id == msgPayload.row.msg_id

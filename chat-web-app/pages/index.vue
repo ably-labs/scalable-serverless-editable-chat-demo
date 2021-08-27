@@ -23,27 +23,6 @@ export default {
   @apply text-white;
 }
 
-/* can we remove the below ? */
-
-/* 
-@screen sm {
-  .background {
-    background-color: red;
-  }
-}
-
-@screen md {
-  .background {
-    background-color: yellow;
-  }
-}
-
-@screen xl {
-  .background {
-    background-color: plum;
-  }
-} */
-
 @screen lg {
   .background {
     background: linear-gradient(120deg, #040f18, #111e36);

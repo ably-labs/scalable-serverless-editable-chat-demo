@@ -66,7 +66,8 @@
       </div>
       <div class="text-xs my-2" v-if="!isCurrentViewCodeSnippet">
         <img
-          src="../assets/architecture.jpeg"
+          style="background-color: white"
+          src="../assets/architecture.png"
           alt="Serverless chat app architecture"
         />
       </div>
