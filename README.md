@@ -20,3 +20,79 @@ This project depends on the [Ably Postgres connector](https://github.com/ably-la
 ## App architecture
 
 ![Serverless chat app architecture](https://user-images.githubusercontent.com/5900152/130453795-22ec340b-45ce-4172-9956-4893b22ca699.jpeg)
+
+
+## How to check out the demo
+
+Go to [https://serverless-scalable-chat.netlify.app/](https://serverless-scalable-chat.netlify.app/) and try it out. You can open multiple instances of it in different tabs or browsers to pretend there are multiple users.
+
+## How to run it locally
+
+#### Step 1 - Set up your Postgres Database
+
+This project requires using a PostgresDB for long-term storage of messages. 
+
+- Download and install [Postgres](https://www.postgresql.org/)
+- Download and install [pgAdmin](https://www.pgadmin.org/) to perform various operations on your PostgresDB
+- Create a new table called `chat_data` with the following SQL command
+
+```
+CREATE TABLE IF NOT EXISTS public.chat_data
+(
+    username text COLLATE pg_catalog."default",
+    msg_id text COLLATE pg_catalog."default" NOT NULL,
+    msg_data text COLLATE pg_catalog."default",
+    client_id text COLLATE pg_catalog."default",
+    incremental_record_id bigint NOT NULL DEFAULT nextval('chat_data_incremental_record_id_seq'::regclass),
+    created_at_timestamp bigint,
+    is_edited boolean,
+    CONSTRAINT chat_data_pkey PRIMARY KEY (msg_id)
+)
+```
+
+#### Step 2 - Set up the Ably Postgres connector for your app
+
+This project depends on the Ably Postgres connector, so we'll need to set that up with our credentials and host it somewhere.
+
+- Clone the connector repo with `git clone https://github.com/ably-labs/ably-postgres-connector.git`
+- Update `config/default.json` with the details of your database, tables and Ably account. Note that if you want to name your channels differently, you'll need to update this in the Nuxt app as well.
+- Run the connector locally using `node test.js`
+
+#### Step 3 - Set up the Lambda function and Ably integration
+
+This project uses a Lambda function to make `INSERT` and `UPDATE` operations on the database. You can find the code in the `lambda-function` folder. Upload this code to your Lambda function and set it up to be triggered whenever a new message is published on the `outgoing-chat` channel of your Ably app by [following the steps provided in Ably docs](https://ably.com/documentation/general/events/aws-lambda).
+
+#### Step 4 - Set up Ably auth endpoint
+
+Ably accepts to ways of authentication - [Basic Auth](https://ably.com/documentation/core-features/authentication#basic-authentication) and [Token Auth](https://ably.com/documentation/core-features/authentication#token-authentication). Basic auth is mostly useful for quick demos but you'll need to use Token Auth for secure authentication on production level apps to make sure the API Key doesn't get exposed.
+
+##### For local usage
+
+If you'd just like to try it out using Basic auth, you'll need to update the `instantiateAbly()` method in the `actions.js` file of the Nuxt store. Just replace the `authUrl: ''` parameter with `key: <YOUR-ABLY-API-KEY>`.
+
+##### For usage in production
+
+To enable Token auth, we can set up an auth endpoint and have this endpoint issue [Ably Token Requests](https://ably.com/documentation/realtime/authentication#token-request) so that our frontend clients can authenticate with Ably securely. 
+
+In this repo, I have the auth endpoint hosted as a Netlify serverless function. You can find this in `chat-web-app/netlify/functions/ably-auth.js`. When you deploy the Nuxt project to Netlify, the function will be automatically activated by Netlify. However, you'll need to update the `authUrl` used to authenticate Ably in the Nuxt app. This is in the `instantiateAbly()` method in the `actions.js` file of the Nuxt store. Just replace the `https://serverless-scalable-chat.netlify.app` part of the endpoint with your Netlify function's URL.
+
+For this to work, you'll need to supply your Ably API Key to the Netlify function via env variables. You can add it like so `ABLY_API_KEY=<YOUR-API-KEY>`
+
+With this, you should be set with your Ably authentication.
+
+#### Step 5 - Run the chat app
+
+- Change directory to the web app with `cd chat-web-app`
+
+- Install all the dependencies with `npm install`
+
+- Run the app with `npm run dev`
+
+- Go to the browser and open multiple instances of `http://localhost:3000/` to try out the app.
+
+Note: If you've used Token auth via Netlify functions, make sure that you've deployed the serverless auth endpoint before running the app.
+
+## Other notes
+
+- All the Ably methods are in the `chat-web-app/store/actions.js` file.
+- More details on various steps coming soon but in the meantime, feel free to reach out to me [directly via Twitter](https://twitter.com/Srushtika) or via [Ably Support](https://ably.com/contact), in case of any questions.
