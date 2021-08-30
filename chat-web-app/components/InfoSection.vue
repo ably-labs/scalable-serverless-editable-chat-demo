@@ -6,7 +6,7 @@
       Description and details
     </div>
     <div class="overflow-y-scroll">
-      <div class="bg-gray-800 my-4 p-4 text-base">
+      <p class="bg-gray-800 my-4 p-4 text-base">
         <font-awesome-icon
           class="mr-2 text-base text-centertext-white"
           :icon="['fas', 'info-circle']"
@@ -22,7 +22,7 @@
           target="_blank"
           >Pub/Sub messaging architecture</a
         >, powered by Ably.
-      </div>
+      </p>
       <div>
         <label for="toggle" class="text-xs text-white"
           >Show architecture diagram
@@ -31,11 +31,11 @@
           class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in"
         >
           <input
+            @click="toggleView()"
             type="checkbox"
             name="toggle"
             id="toggle"
             class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-            @click="toggleView()"
           />
           <label
             for="toggle"
@@ -45,12 +45,29 @@
       </div>
       <div class="text-xs my-2" v-if="isCurrentViewCodeSnippet">
         <VueCodeHighlight language="javascript">
-          {{ this.pubSubCodeSnippet }}
+          <pre>
+    ablyRealtimeInstance = new Ably.Realtime({ 
+      authUrl: 'your-auth-endpoint',
+    }); 
+
+    chatChannelInstance = ablyRealtimeInstance.channels.get(
+      '[?rewind=2m]chat' 
+    ); 
+
+    chatChannelInstance.subscribe(msg)=> {
+      handleNewMsg(msg) 
+    }); 
+
+    chatChannelInstance.publish('chat-msg', {
+      chatData 
+    });
+          </pre>
         </VueCodeHighlight>
       </div>
       <div class="text-xs my-2" v-if="!isCurrentViewCodeSnippet">
         <img
-          src="../assets/architecture.jpeg"
+          style="background-color: white"
+          src="../assets/architecture.png"
           alt="Serverless chat app architecture"
         />
       </div>
@@ -59,14 +76,13 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapGetters } from "vuex";
 import { component as VueCodeHighlight } from "vue-code-highlight";
 import "vue-code-highlight/themes/prism.css";
 
 export default {
   data() {
     return {
-      pubSubCodeSnippet: null,
       isCurrentViewCodeSnippet: true
     };
   },
@@ -80,23 +96,6 @@ export default {
     toggleView() {
       this.isCurrentViewCodeSnippet = !this.isCurrentViewCodeSnippet;
     }
-  },
-  created() {
-    this.pubSubCodeSnippet = `
-  ablyRealtimeInstance = new Ably.Realtime({
-    authUrl: '<auth-endpoint>',
-  });
-
-  chatChannelInstance = ablyRealtimeInstance.channels.get(
-      '[?rewind=2m]chat'
-  );
-
-  chatChannelInstance.subscribe(msg)=> { 
-    handleNewMsg(msg) 
-  });
-
-  chatChannelInstance.publish('chat-msg', { chatData });
-  `;
   }
 };
 </script>

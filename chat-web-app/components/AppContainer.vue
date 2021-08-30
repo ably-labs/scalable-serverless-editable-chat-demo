@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
@@ -52,13 +52,12 @@ export default {
     ])
   },
   watch: {
-    getIsUsernameEntered(newStatus, oldStatus) {
+    getIsUsernameEntered(newStatus) {
       if (newStatus && this.getIsAblyConnectedStatus) {
         this.enterClientInAblyPresenceSet();
       }
     }
-  },
-  created() {}
+  }
 };
 </script>
 
@@ -94,13 +93,13 @@ export default {
   }
   .chat-messages-container {
     width: 100vw;
-    padding-left: 20vw;
     height: 75vh;
+    padding-left: 20vw;
   }
   .username-input {
     width: 85vw;
-    padding-left: 20vw;
     height: 85vh;
+    padding-left: 20vw;
   }
 
   .chat-input {

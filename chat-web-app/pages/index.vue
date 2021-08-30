@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   methods: {
@@ -22,25 +22,6 @@ export default {
   background: linear-gradient(120deg, #040f18, #111e36);
   @apply text-white;
 }
-
-/* 
-@screen sm {
-  .background {
-    background-color: red;
-  }
-}
-
-@screen md {
-  .background {
-    background-color: yellow;
-  }
-}
-
-@screen xl {
-  .background {
-    background-color: plum;
-  }
-} */
 
 @screen lg {
   .background {

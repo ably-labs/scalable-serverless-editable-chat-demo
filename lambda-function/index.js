@@ -13,31 +13,27 @@ exports.handler = (incomingObject, context, callback) => {
   const msgData = JSON.parse(msgPayload.data);
 
   if (msgPayload.name == "chatMsg") {
-    const queryText =
-      "INSERT INTO chat_data(username, msg_id, msg_data, client_id, created_at_timestamp) VALUES($1, $2, $3, $4, $5)";
-    const queryValues = [
-      msgData.username,
-      msgPayload.id,
-      msgData.content,
-      msgPayload.clientId,
-      msgPayload.timestamp,
-    ];
+    const queryText = "INSERT INTO chat_data(username, msg_id, msg_data, client_id, created_at_timestamp) VALUES($1, $2, $3, $4, $5)";
+    const queryValues = [msgData.username, msgPayload.id, msgData.content, msgPayload.clientId, msgPayload.timestamp];
+
     client.query(queryText, queryValues, (err, res) => {
       console.log("Error", err);
       console.log("Result", res);
       client.end();
     });
-    return "insert function done";
+
+    return `insert function done, ${queryValues} payload inserted`;
   } else if (msgPayload.name == "editedMsg") {
-    const queryText =
-      "UPDATE chat_data SET msg_data = $1, is_edited = $2 WHERE msg_id = $3";
+    const queryText = "UPDATE chat_data SET msg_data = $1, is_edited = $2 WHERE msg_id = $3";
     const queryValues = [msgData.content, true, msgData.msgIdToEdit];
     client.query(queryText, queryValues, (err, res) => {
       console.log("Error", err);
       console.log("Result", res);
       client.end();
     });
-    return "update function done";
+
+    return `update function done, ${queryValues} payload updated`;
   }
-  return "all done";
+
+  return `database transaction done with ${msgPayload.name} values ${msgData}`;
 };

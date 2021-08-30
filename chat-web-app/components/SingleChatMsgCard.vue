@@ -45,9 +45,6 @@
           <template v-if="!isMsgFromToday">
             on {{ date }}/{{ month }}
           </template>
-          <!-- <template v-if="isMsgFromToday">
-            today
-          </template> -->
           at {{ readableTimestamp }}
           <template v-if="isMsgEdited">&bull; edited &bull;</template>
         </div>
@@ -57,7 +54,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   props: ["msgPayload"],
   data() {
@@ -114,7 +111,6 @@ export default {
     saveEditedMsg() {
       this.editedChatMsg = this.$refs.editMsgPara.innerText;
       if (this.msgBeforeEdit != this.editedChatMsg) {
-        //this.isMsgEdited = true;
         this.publishMyEditedMsg();
       }
       this.didClickEdit = false;

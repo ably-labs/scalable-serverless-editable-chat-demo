@@ -21,3 +21,32 @@ This project depends on the [Ably Postgres connector](https://github.com/ably-la
 
 ![Serverless chat app architecture](https://user-images.githubusercontent.com/5900152/130453795-22ec340b-45ce-4172-9956-4893b22ca699.jpeg)
 
+
+# Notes
+
+- Uses too many concepts
+    - We're introducing Vue, VueX, Tailwind all at once
+    - The objective is to explain how we can use databases and store and emit messages from Postgres+AWS.
+    - All the other stuff is a distraction to that goal.
+
+- For example:
+    - Vue.js + Postgres + Ably = GOOD!
+    - Vue.js + VueX = Bad, because the reader, when trying to learn about postgres, has to understand an additional concept
+    - Recommend removing global state management because we really only have two Ably channels and a presence list as "state"
+    - These could be managed inside the Chat Messages Container, or some other component, rather than indirectly injected in.
+    - This would make the use of the ably messages more obvious, as it'd be closer to the part of the UI that actually uses them.
+    - I know VueX is kinda cool, but sadly it's distracting here :)
+
+- Does this really need to be mobile friendly?
+    - What additional things are our readers / learners learning from this having a bunch of "Mobile" code for the presence list?
+    - Does this add value to our stated objectives.
+    - If we were to have this as mobile friendly, it should probably just be mobile first in the CSS rather than extra code to make this happen.
+
+- Stylistically a lot of this code is really "packed together" visually - there's not much whitespace anywhere which makes it really quite difficult to read.
+
+- How is this deployed?
+
+- Have you considered sending "Correction" messages rather than using a database?
+
+
+Always ask "what can we take out of this" :)
