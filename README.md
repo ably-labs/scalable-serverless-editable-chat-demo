@@ -2,9 +2,13 @@
 
 One of the obvious architectural patterns when it comes to building chat apps with a [Pub/Sub](https://ably.com/topic/pub-sub) service like [Ably](https://ably.com/) is to publish messages on a channel and make sure all the participants are subscribed to that same channel so they can receive the updates.
 
-This pattern however, suffers from the fact that there's no way to stream updates about previously published messages, for example in case of having to edit a previously sent chat message. This can be resolved by putting a database at the center of the architecture. Such database-driven applications can trigger updates to interested parties follow any changes to the database.
+This pattern, however, suffers from the fact that there's no way to stream updates about previously published messages, for example in the case of having to edit a previously sent chat message. 
 
-This project depends on the [Ably Postgres connector](https://github.com/ably-labs/ably-postgres-connector) which can watch for changes on a Postgres DB and publish messages to specific Ably channels on any change.
+This can be resolved by adopting a database-driven architectural pattern and allowing realtime messages to be triggered following any changes to the database, and thus to previously published data. To make this possible, the editable chat app makes use of the [Ably Postgres connector](https://github.com/ably-labs/ably-postgres-connector) which can watch for changes on a Postgres DB and publish messages to specific Ably channels on any change.
+
+## App architecture
+
+![Serverless chat app architecture](https://user-images.githubusercontent.com/5900152/130453795-22ec340b-45ce-4172-9956-4893b22ca699.jpeg)
 
 ## Tech stack of the chat app
 
@@ -17,11 +21,6 @@ This project depends on the [Ably Postgres connector](https://github.com/ably-la
 - [Netlify functions](https://www.netlify.com/products/functions/) to enable a token auth endpoint to authenticate with Ably.
 - [Netlify](https://netlify.com/) to host the static Jamstack site.
 
-## App architecture
-
-![Serverless chat app architecture](https://user-images.githubusercontent.com/5900152/130453795-22ec340b-45ce-4172-9956-4893b22ca699.jpeg)
-
-
 ## How to check out the demo
 
 Go to [https://serverless-scalable-chat.netlify.app/](https://serverless-scalable-chat.netlify.app/) and try it out. You can open multiple instances of it in different tabs or browsers to pretend there are multiple users.
@@ -30,7 +29,7 @@ Go to [https://serverless-scalable-chat.netlify.app/](https://serverless-scalabl
 
 #### Step 1 - Set up your Postgres Database
 
-This project requires using a PostgresDB for long-term storage of messages. 
+This project requires a PostgresDB to store messages. 
 
 - Download and install [Postgres](https://www.postgresql.org/)
 - Download and install [pgAdmin](https://www.pgadmin.org/) to perform various operations on your PostgresDB
@@ -52,33 +51,41 @@ CREATE TABLE IF NOT EXISTS public.chat_data
 
 #### Step 2 - Set up the Ably Postgres connector for your app
 
-This project depends on the Ably Postgres connector, so we'll need to set that up with our credentials and host it somewhere.
+This project depends on the Ably Postgres connector, so we'll need to set that up with our credentials.
 
 - Clone the connector repo with `git clone https://github.com/ably-labs/ably-postgres-connector.git`
-- Update `config/default.json` with the details of your database, tables and Ably account. Note that if you want to name your channels differently, you'll need to update this in the Nuxt app as well.
+- Update `config/default.json` with the details of your database, tables, Ably channels and API Key. Note that if you want to name your channels differently, you'll need to update this in the Nuxt app as well.
 - Run the connector locally using `node test.js`
 
 #### Step 3 - Set up the Lambda function and Ably integration
 
-This project uses a Lambda function to make `INSERT` and `UPDATE` operations on the database. You can find the code in the `lambda-function` folder. Upload this code to your Lambda function and set it up to be triggered whenever a new message is published on the `outgoing-chat` channel of your Ably app by [following the steps provided in Ably docs](https://ably.com/documentation/general/events/aws-lambda).
+This project uses a Lambda function to make `INSERT` and `UPDATE` operations on the database. You can find the code in the `lambda-function` folder. 
+
+Upload this code to your Lambda function and set it up to be triggered whenever a new message is published on the `outgoing-chat` channel of your Ably app by [following the steps provided in Ably docs](https://ably.com/documentation/general/events/aws-lambda).
 
 #### Step 4 - Set up Ably auth endpoint
 
-Ably accepts to ways of authentication - [Basic Auth](https://ably.com/documentation/core-features/authentication#basic-authentication) and [Token Auth](https://ably.com/documentation/core-features/authentication#token-authentication). Basic auth is mostly useful for quick demos but you'll need to use Token Auth for secure authentication on production level apps to make sure the API Key doesn't get exposed.
+Ably accepts two ways of authentication - [Basic Auth](https://ably.com/documentation/core-features/authentication#basic-authentication) and [Token Auth](https://ably.com/documentation/core-features/authentication#token-authentication). 
+
+Basic auth is mostly useful for quick demos but you'll need to use Token Auth for secure authentication on production level apps to make sure the API Key doesn't get exposed.
 
 ##### For local usage
 
-If you'd just like to try it out using Basic auth, you'll need to update the `instantiateAbly()` method in the `actions.js` file of the Nuxt store. Just replace the `authUrl: ''` parameter with `key: <YOUR-ABLY-API-KEY>`.
+If you'd just like to try it out using Basic auth, you'll need to update the `instantiateAbly()` method in the `actions.js` file of the Nuxt store. Just replace the `authUrl: ''` parameter with `key: '<YOUR-ABLY-API-KEY>'`.
 
 ##### For usage in production
 
 To enable Token auth, we can set up an auth endpoint and have this endpoint issue [Ably Token Requests](https://ably.com/documentation/realtime/authentication#token-request) so that our frontend clients can authenticate with Ably securely. 
 
-In this repo, I have the auth endpoint hosted as a Netlify serverless function. You can find this in `chat-web-app/netlify/functions/ably-auth.js`. When you deploy the Nuxt project to Netlify, the function will be automatically activated by Netlify. However, you'll need to update the `authUrl` used to authenticate Ably in the Nuxt app. This is in the `instantiateAbly()` method in the `actions.js` file of the Nuxt store. Just replace the `https://serverless-scalable-chat.netlify.app` part of the endpoint with your Netlify function's URL.
+In this repo, I have the auth endpoint hosted as a Netlify serverless function. You can find this in `chat-web-app/netlify/functions/ably-auth.js`. When you deploy the Nuxt project to Netlify, the function will be automatically activated by Netlify. 
+
+However, you'll need to update the `authUrl` parameter used to authenticate Ably in the Nuxt app and add your function's URL instead. 
+
+You can find this in the `instantiateAbly()` method in the `actions.js` file of the Nuxt store. Just replace the `https://serverless-scalable-chat.netlify.app` part of the endpoint with your Netlify function's URL.
 
 For this to work, you'll need to supply your Ably API Key to the Netlify function via env variables. You can add it like so `ABLY_API_KEY=<YOUR-API-KEY>`
 
-With this, you should be set with your Ably authentication.
+With this, you should be all set with the Ably auth step.
 
 #### Step 5 - Run the chat app
 
@@ -95,4 +102,4 @@ Note: If you've used Token auth via Netlify functions, make sure that you've dep
 ## Other notes
 
 - All the Ably methods are in the `chat-web-app/store/actions.js` file.
-- More details on various steps coming soon but in the meantime, feel free to reach out to me [directly via Twitter](https://twitter.com/Srushtika) or via [Ably Support](https://ably.com/contact), in case of any questions.
+- More details on various steps are coming soon but in the meantime, feel free to reach out to me [directly via Twitter](https://twitter.com/Srushtika) or [via Ably Support](https://ably.com/contact), in case of any questions.
