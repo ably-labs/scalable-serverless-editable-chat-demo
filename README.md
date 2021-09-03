@@ -8,7 +8,7 @@ This can be resolved by adopting a database-driven architectural pattern and all
 
 ## App architecture
 
-![Serverless chat app architecture](https://user-images.githubusercontent.com/5900152/130453795-22ec340b-45ce-4172-9956-4893b22ca699.jpeg)
+![Serverless chat app architecture](https://user-images.githubusercontent.com/5900152/132007004-f9f359ba-67c8-43c9-b627-0fff901b10d0.jpg)
 
 ## Tech stack of the chat app
 
