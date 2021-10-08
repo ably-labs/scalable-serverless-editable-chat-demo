@@ -6,6 +6,15 @@ This pattern, however, suffers from the fact that there's no way to stream updat
 
 This can be resolved by adopting a database-driven architectural pattern and allowing realtime messages to be triggered following any changes to the database, and thus to previously published data. To make this possible, the editable chat app makes use of the [Ably Postgres connector](https://github.com/ably-labs/ably-postgres-connector) which can watch for changes on a Postgres DB and publish messages to specific Ably channels on any change.
 
+## Supporting articles
+
+I've written extensively about the architecture, implementation and deployment of various components of this app.
+
+You can find them here:
+
+- [Database-driven realtime architectures: building a serverless and editable chat app - Part 1](https://ably.com/blog/database-driven-realtime-architectures-serverless-editable-chat-app-part-1)
+- [Database-driven realtime architectures: building a serverless and editable chat app - Part 2](https://ably.com/blog/database-driven-realtime-architectures-serverless-editable-chat-app-part-2)
+
 ## App architecture
 
 ![Serverless chat app architecture](https://user-images.githubusercontent.com/5900152/132007004-f9f359ba-67c8-43c9-b627-0fff901b10d0.jpg)
