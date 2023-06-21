@@ -18,7 +18,7 @@
     "@nuxtjs/fontawesome": "^1.1.2",
     "ably": "^1.2.11",
     "core-js": "^3.15.1",
-    "nuxt": "^2.15.7",
+    "nuxt": "^3.4.3",
     "nuxt-fontawesome": "^0.4.0",
     "tailwindcss-filters": "^3.0.0",
     "uuid": "^8.3.2",
