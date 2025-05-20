@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> This repository uses the Ably Pub/Sub approach for building chat apps. We now offer Ably Chat—a new family of SDKs and APIs that streamline development and manage realtime chat complexity for you. For a modern, easier way to create chat experiences, visit our [Ably Chat documentation](https://ably.com/docs/chat).
+
 # A fully serverless editable chat demo that can scale to arbitrary levels
 
 One of the obvious architectural patterns when it comes to building chat apps with a [Pub/Sub](https://ably.com/topic/pub-sub) service like [Ably](https://ably.com/) is to publish messages on a channel and make sure all the participants are subscribed to that same channel so they can receive the updates.
